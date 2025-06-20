@@ -36,3 +36,8 @@ export default async function handler(req, res) {
 
   res.status(200).json({ status: "success", file: fileName });
 }
+
+export default function handler(req, res) {
+  res.status(200).json({ message: "API route working!" });
+}
+
