@@ -18,7 +18,7 @@ export default function MitolynModernLanding() {
         className={`text-center py-12 px-4 max-w-5xl mx-auto transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
       >
         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-relaxed bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-          How I Lost 17 Kilos in 90 Days – Without Starving or Gym Burnout
+          How I Lost 38 lbs in 90 Days Without Starvings or Gym Burnout
         </h1>
         <p className="text-xl md:text-2xl text-gray-600 font-light max-w-3xl mx-auto leading-relaxed">
           This one change flipped everything – and it can help you too.
