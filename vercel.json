@@ -1,5 +1,5 @@
 {
-  "cron": {
+  "crons": {
     "daily-blog": {
       "path": "/api/generateBlog",
       "schedule": "0 6 * * *"
