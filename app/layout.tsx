@@ -20,6 +20,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5956387629326513"
+     crossorigin="anonymous"></script>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </head>
