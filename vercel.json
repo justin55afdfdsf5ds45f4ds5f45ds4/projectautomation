@@ -1,12 +1,8 @@
 {
-  "cron": {
-    "daily-blog": {
   "crons": [
     {
       "path": "/api/generateBlog",
       "schedule": "0 6 * * *"
-      "schedule": "0 * * * *"
     }
-  }
   ]
 }
