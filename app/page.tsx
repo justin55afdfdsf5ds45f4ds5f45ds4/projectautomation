@@ -47,7 +47,7 @@ export default function MitolynModernLanding() {
           <div className="max-w-none text-gray-800 leading-relaxed">
             <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border-l-4 border-blue-400">
               <p className="font-light text-gray-700 italic mb-0" style={{ fontSize: "24px", lineHeight: "1.6" }}>
-                "I never thought I'd be the person writing a transformation story. But here I am, 17 kilos lighter, and
+                "I never thought I'd be the person writing a transformation story. But here I am, 38 lbs lighter, and
                 I need to share this because it might just save someone else from the years of frustration I went
                 through."
               </p>
