@@ -227,6 +227,8 @@ export default function MitolynModernLanding() {
                   See the Product That Helped Me
                 </Button>
               </Link>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5956387629326513"
+     crossorigin="anonymous"></script>
             </div>
           </div>
         </div>
