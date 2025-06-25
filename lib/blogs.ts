@@ -31,7 +31,6 @@ export async function uploadBlogToSupabase(
     .from("blog-posts")
     .upload(filename, blog, {
       contentType: "text/mdx",
-      upsert: true,
     });
 
   if (error) {
@@ -105,6 +104,27 @@ export async function fetchBlogPostsFromSupabase(): Promise<
 }
 
 /**
+ * Checks if a blog post with the given slug already exists in Supabase Storage.
+ * @param slug The blog post slug (filename without .mdx)
+ * @returns {Promise<boolean>} True if the blog exists, false otherwise.
+ */
+export async function checkIfBlogExistsBySlug(slug: string): Promise<boolean> {
+  const filename = `${slug}.mdx`;
+  const { data: files, error: listError } = await supabase.storage
+    .from("blog-posts")
+    .list("", { search: filename });
+
+  if (listError) {
+    console.error("Error checking for blog post:", listError);
+    return true;
+  }
+
+  return (
+    files && files.length > 0 && files.some((file) => file.name === filename)
+  );
+}
+
+/**
  * Fetches a single blog post by slug from Supabase Storage.
  * Parses the frontmatter and content.
  * @param slug The blog post slug (filename without .mdx)
@@ -115,13 +135,31 @@ export async function fetchBlogPostBySlug(slug: string): Promise<{
   title: string;
   summary: string;
   content: string;
+  updated_at: string;
 } | null> {
   const filename = `${slug}.mdx`;
-  const { data, error } = await supabase.storage
+  const { data: files, error: listError } = await supabase.storage
+    .from("blog-posts")
+    .list("", { search: filename });
+
+  if (listError) {
+    console.error("Error listing blog posts:", listError);
+    return null;
+  }
+
+  if (!files || files.length === 0) {
+    return null;
+  }
+
+  const fileMetadata = files[0];
+  const updated_at = fileMetadata.updated_at;
+
+  const { data, error: downloadError } = await supabase.storage
     .from("blog-posts")
     .download(filename);
 
-  if (error || !data) {
+  if (downloadError || !data) {
+    console.error("Error downloading blog post:", downloadError);
     return null;
   }
 
@@ -155,5 +193,6 @@ export async function fetchBlogPostBySlug(slug: string): Promise<{
     title,
     summary,
     content: content.trim(),
+    updated_at,
   };
 }
