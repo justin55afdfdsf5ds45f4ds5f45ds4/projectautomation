@@ -23,7 +23,7 @@ export async function generateImageWithReplicate(
       auth: replicateApiToken,
     });
 
-    const imageModel = "google/imagen-4";
+    const imageModel = "ideogram-ai/ideogram-v2-turbo";
     const imageInput = {
       prompt: imagePrompt,
       aspect_ratio: "9:16",

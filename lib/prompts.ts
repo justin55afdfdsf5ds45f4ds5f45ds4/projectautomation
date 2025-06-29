@@ -17,7 +17,7 @@ Strict output requirements:
 Output format:
 - Return the blog as a valid .mdx file.
 - Start with a YAML frontmatter block containing:
-  - title: A compelling blog title
+  - title: An eye-catching and concise blog title
   - date: The current date in ISO format (YYYY-MM-DD)
   - tags: A list containing only ["Artificial Intelligence"]
   - summary: A 1–2 sentence summary of the post
@@ -86,7 +86,7 @@ Strict output requirements:
 Output format:
 - Return the blog as a valid .mdx file.
 - Start with a YAML frontmatter block containing:
-  - title: A compelling blog title
+  - title: An eye-catching and concise blog title
   - date: The current date in ISO format (YYYY-MM-DD)
   - tags: A list containing only ["Weight loss"]
   - summary: A 1–2 sentence summary of the post

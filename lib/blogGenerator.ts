@@ -2,6 +2,7 @@ import Replicate from "replicate";
 import { uploadBlogToSupabase, checkIfBlogExistsBySlug } from "./blogs";
 import { generateImageWithReplicate } from "./replicateImage";
 import { generateImagePromptFromBlog, insertImageTagIntoBlog } from "./utils";
+import { uploadImageToSupabase } from "./storage";
 import {
   GENERATE_AI_BLOG_PROMPT,
   GENERATE_WEIGHTLOSS_BLOG_PROMPT,
@@ -81,8 +82,17 @@ export async function generateAndUploadUniqueBlog(): Promise<{
   }
 
   const imagePrompt = generateImagePromptFromBlog(blog);
-  const imageUrl = await generateImageWithReplicate(imagePrompt);
-  blog = insertImageTagIntoBlog(blog, imageUrl, imagePrompt);
+  const replicateImageUrl = await generateImageWithReplicate(imagePrompt);
+
+  if (!replicateImageUrl) {
+    console.error("Failed to generate image from Replicate.");
+    return null;
+  }
+
+  // Download and upload image to Supabase Storage
+  const supabaseImageUrl = await uploadImageToSupabase(replicateImageUrl, slug);
+
+  blog = insertImageTagIntoBlog(blog, supabaseImageUrl, imagePrompt);
 
   const { filename, path } = await uploadBlogToSupabase(blog);
 
