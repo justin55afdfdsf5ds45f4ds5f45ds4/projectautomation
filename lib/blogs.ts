@@ -45,7 +45,13 @@ export async function uploadBlogToSupabase(
  * @returns {Promise<Array<{ slug: string, title: string, excerpt: string }>>}
  */
 export async function fetchBlogPostsFromSupabase(): Promise<
-  { slug: string; title: string; excerpt: string }[]
+  {
+    slug: string;
+    title: string;
+    excerpt: string;
+    updated_at: string;
+    thumbnail: string | null;
+  }[]
 > {
   // List all files in the "blog-posts" bucket
   const { data: files, error: listError } = await supabase.storage
@@ -85,6 +91,12 @@ export async function fetchBlogPostsFromSupabase(): Promise<
           /summary:\s*["']?(.+?)["']?\s*(\r?\n|$)/i
         );
 
+        let thumbnail: string | null = null;
+        const imageMatch = text.match(/!\[.*?\]\((.*?)\)/);
+        if (imageMatch && imageMatch[1]) {
+          thumbnail = imageMatch[1];
+        }
+
         return {
           slug,
           title: titleMatch ? titleMatch[1] : slug,
@@ -93,13 +105,23 @@ export async function fetchBlogPostsFromSupabase(): Promise<
             : summaryMatch
             ? summaryMatch[1]
             : "No excerpt available.",
+          updated_at: file.updated_at,
+          thumbnail: thumbnail,
         };
       })
   );
 
   // Filter out any nulls (failed downloads)
   return posts.filter(
-    (post): post is { slug: string; title: string; excerpt: string } => !!post
+    (
+      post
+    ): post is {
+      slug: string;
+      title: string;
+      excerpt: string;
+      updated_at: string;
+      thumbnail: string | null;
+    } => !!post
   );
 }
 
