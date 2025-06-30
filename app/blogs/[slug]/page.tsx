@@ -42,6 +42,23 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     notFound();
   }
 
+  const shuffleArray = (array: any[]) => {
+    let currentIndex = array.length,
+      randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  };
+
   const mostRecentPosts = allPosts
     .sort(
       (a, b) =>
@@ -49,6 +66,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     )
     .filter((recentPost) => recentPost.slug !== params.slug)
     .slice(0, 5);
+
+  const popularPosts = shuffleArray([...allPosts])
+    .filter((popularPost) => popularPost.slug !== params.slug)
+    .slice(0, 6);
 
   const lastUpdated = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
@@ -401,12 +422,34 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </>
             );
           })()}
-          <div className="border-t border-gray-200 pt-8">
-            <Link href="/blogs">
-              <Button className="bg-red-500 hover:bg-red-600 text-white">
-                ← Back to Blogs
-              </Button>
-            </Link>
+          <div className="mt-12 pt-8">
+            <h2 className="text-3xl font-bold text-gray-900 pb-4 mb-8 border-b border-gray-200">
+              Most Popular Articles
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {popularPosts.map((popularPost) => (
+                <div
+                  key={popularPost.slug}
+                  className="bg-white rounded-[8px] shadow-md overflow-hidden border p-1"
+                >
+                  {popularPost.thumbnail && (
+                    <img
+                      src={popularPost.thumbnail}
+                      alt={popularPost.title}
+                      className="w-full h-40 object-cover rounded-[6px]"
+                    />
+                  )}
+                  <div className="p-4">
+                    <Link
+                      href={`/blogs/${popularPost.slug}`}
+                      className="text-lg font-semibold text-gray-800 hover:text-red-500"
+                    >
+                      {popularPost.title}
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="md:col-span-1">
@@ -444,6 +487,96 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           </div>
         </div>
       </div>
+      <footer className="mt-12">
+        <div className="bg-white border-t border-blue-100">
+          <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Advertise With Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Join Our Medical Board
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Editorial Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Image Usage Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Affiliate Disclosure
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Terms Of Use
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Advertising Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-700 hover:text-red-500">
+                    Cookie Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="md:col-span-2"></div>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="bg-[#1a202c] text-gray-400 py-6">
+          <div className="max-w-6xl mx-auto px-4 text-sm text-center md:text-left">
+            <p className="mb-2">
+              © 2011 - 2025 Project Automation Private Limited.
+            </p>
+            <p>
+              Project Automation provides content of general nature that is
+              designed for informational purposes only. The content is not
+              intended to be a substitute for professional medical advice,
+              diagnosis, or treatment.{" "}
+              <Link href="#" className="text-red-500 hover:underline">
+                Click here for additional information.
+              </Link>
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
