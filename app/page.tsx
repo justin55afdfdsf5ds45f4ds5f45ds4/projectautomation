@@ -31,7 +31,7 @@ export default function MitolynModernLanding() {
       >
         <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
           <img
-            src="https://i.postimg.cc/4NWhcNJB/lucy-prevs-before-after-photos-1.webp"
+            src="https://i.postimg.cc/BQj846my/391700907-17845492302082483-1847706956008243019-n-1-1.jpg"
             alt="Weight loss transformation before and after"
             className="rounded-2xl w-full h-auto object-cover"
           />
