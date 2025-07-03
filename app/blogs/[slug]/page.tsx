@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { notFound } from "next/navigation";
 import { fetchBlogPostBySlug, fetchBlogPostsFromSupabase } from "@/lib/blogs";
 import ReactMarkdown from "react-markdown";
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import InArticleLinks from "@/components/InArticleLinks";
 import { extractHeadings } from "@/lib/utils";
+import MostPopularArticles from "@/components/MostPopularArticles";
 
 interface BlogDetailPageProps {
   params: { slug: string };
@@ -69,7 +69,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   const popularPosts = shuffleArray([...allPosts])
     .filter((popularPost) => popularPost.slug !== params.slug)
-    .slice(0, 6);
+    .slice(0, 8);
 
   const lastUpdated = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
@@ -112,15 +112,15 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </BreadcrumbList>
             </Breadcrumb>
 
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
               {post.title}
             </h1>
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-xs text-gray-500 mb-4">
               Last Updated: {lastUpdated}
             </p>
             {post.summary && (
               <div className="bg-gray-100 border-l-4 border-red-500 text-gray-700 p-4 mb-6 rounded-md">
-                <p className="text-lg italic">{post.summary}</p>
+                <p className="text-md italic">{post.summary}</p>
               </div>
             )}
           </div>
@@ -158,7 +158,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 {/* Render content before conclusion */}
                 {conclusionIndex !== -1 &&
                   contentBeforeConclusion.trim().length > 0 && (
-                    <div className="prose prose-lg max-w-none mb-8">
+                    <div
+                      className="prose prose-lg max-w-none mb-8"
+                      style={{ fontSize: "1rem" }}
+                    >
                       <ReactMarkdown
                         components={{
                           h1: ({ node, ...props }) => {
@@ -285,10 +288,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 {/* Render conclusion section with custom styling */}
                 {conclusionIndex !== -1 && (
                   <div className="bg-gradient-to-r from-red-100 to-red-200 p-6 rounded-lg shadow-lg mb-8">
-                    <h2 className="text-2xl font-bold text-red-800 mb-4">
+                    <h2 className="text-xl font-bold text-red-800 mb-4">
                       Conclusion/Key Takeaways
                     </h2>
-                    <div className="prose prose-lg max-w-none">
+                    <div
+                      className="prose prose-lg max-w-none"
+                      style={{ fontSize: "1rem" }}
+                    >
                       <ReactMarkdown>{conclusionContent}</ReactMarkdown>
                     </div>
                   </div>
@@ -422,40 +428,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </>
             );
           })()}
-          <div className="mt-12 pt-8">
-            <h2 className="text-3xl font-bold text-gray-900 pb-4 mb-8 border-b border-gray-200">
-              Most Popular Articles
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {popularPosts.map((popularPost) => (
-                <div
-                  key={popularPost.slug}
-                  className="bg-white rounded-[8px] shadow-md overflow-hidden border p-1"
-                >
-                  {popularPost.thumbnail && (
-                    <img
-                      src={popularPost.thumbnail}
-                      alt={popularPost.title}
-                      className="w-full h-40 object-cover rounded-[6px]"
-                    />
-                  )}
-                  <div className="p-4">
-                    <Link
-                      href={`/blogs/${popularPost.slug}`}
-                      className="text-lg font-semibold text-gray-800 hover:text-red-500"
-                    >
-                      {popularPost.title}
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
         <div className="md:col-span-1">
           {" "}
           <div className="p-6 pt-0 rounded-lg">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">
               Most Recent Posts
             </h2>
             <ul>
@@ -486,6 +463,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             </ul>
           </div>
         </div>
+        <MostPopularArticles popularPosts={popularPosts} />
       </div>
       <footer className="mt-12">
         <div className="bg-white border-t border-blue-100">
@@ -561,7 +539,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {/* Bottom Section */}
         <div className="bg-[#1a202c] text-gray-400 py-6">
-          <div className="max-w-6xl mx-auto px-4 text-sm text-center md:text-left">
+          <div className="max-w-6xl mx-auto px-4 text-xs text-center md:text-left">
             <p className="mb-2">
               © 2011 - 2025 Project Automation Private Limited.
             </p>
