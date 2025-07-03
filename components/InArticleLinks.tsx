@@ -25,7 +25,7 @@ const InArticleLinks: React.FC<InArticleLinksProps> = ({ headings }) => {
 
   return (
     <div className="mb-8 p-4 bg-gray-50 rounded-md">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">In This Article</h2>
+      <h2 className="text-lg font-bold text-gray-900 mb-4">In This Article</h2>
       <ul className="list-disc px-4">
         {headings.map(({ text, id }, index) => (
           <li key={index} className="mb-2 text-red-500">
